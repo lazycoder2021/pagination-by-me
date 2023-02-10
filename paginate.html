@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        *{
+            
+        }
+
+
+        .cover{
+            border:1px solid black;
+            height:70px;
+            padding:0px;
+        }
+
+        span{
+            border:1px solid black;
+            padding:2px 4px;
+            cursor:pointer; 
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <div class="wrapper">
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+            <span>6</span>
+            <span>7</span>
+            <span>8</span>
+            <span>9</span>
+            <span>10</span>
+            <span>11</span>
+            <span>12</span>
+            <span>13</span>
+            <span>14</span>
+            <span>15</span>
+            <span>16</span>
+            <span>17</span>
+            <span>18</span>
+            <span>19</span>
+            <span>20</span><br /><br />
+            <button class="pbtn">Prev</button><button class="nbtn">Next</button><br /><br />
+            <div class="list"></div>
+
+
+        </div>
+    </div>
+
+
+    <script>
+        /* not that you have figured out the array range limits, use splice method to deriver the values from the array */ 
+        var data;
+        var dataPerPage; 
+        var noOfPages;
+        var pageNumberIndex = 1; 
+        var lastIndex=10; 
+        var slicedArray;
+        var firstIndex=0;
+        
+        
+        window.addEventListener('DOMContentLoaded', function () {
+
+            
+             
+            fetch('https://jsonplaceholder.typicode.com/todos')
+                .then((res) => {
+                    return res.json()
+                })
+                .then((data) => {
+                    data = data; 
+                    console.log(data)
+                    console.log(data.slice(0,20))
+                    console.log(data.length)
+
+                    buildPagination(firstIndex, lastIndex)
+                    //buildPagination(10,20)
+                    //buildPagination(20, 30)
+
+
+                    noOfPages = data.length / 10;
+                    //pageNumberIndex = 1;
+                    dataPerPage = 10;
+                    console.log(noOfPages, dataPerPage, pageNumberIndex)
+
+                    document.querySelector('.pbtn').addEventListener('click', function () {
+                        pageNumberIndex--;
+                        console.log(pageNumberIndex)
+                        firstIndex = firstIndex - 10;
+                        lastIndex = lastIndex - 10;
+                        //lastIndex = dataPerPage * pageNumberIndex; 
+                        console.log(dataPerPage * pageNumberIndex)
+                        if ((dataPerPage * pageNumberIndex) <= 0) {
+                            pageNumberIndex = 190;
+                            //dataPerPage = 20;
+                            firstIndex = 190;
+                            lastIndex = 200;
+                        }
+
+                        buildPagination(firstIndex, lastIndex)
+                    })
+
+                    document.querySelector('.nbtn').addEventListener('click', function () {
+                        pageNumberIndex++; 
+                        console.log(pageNumberIndex)
+                        firstIndex = firstIndex + 10;
+                        lastIndex = lastIndex + 10;
+                        //lastIndex = dataPerPage * pageNumberIndex; 
+                        console.log(dataPerPage * pageNumberIndex)
+                        if ((dataPerPage * pageNumberIndex) > data.length) {
+                            pageNumberIndex = 0;
+                            firstIndex = 0;
+                            lastIndex = 10;
+                        }
+
+                        buildPagination(firstIndex, lastIndex)
+                    })
+
+                    // should provide proper build pagination params.....then this will work properly -- issue: first value being passed is always the same -- so the entire array is being fetched repeatedly
+
+                    function buildPagination(first, last) {
+                        document.querySelector('.list').innerHTML = ''; // should remove this or....
+                        //console.log(data.slice(first, last))
+                        slicedArray = data.slice(first, last);
+                        console.log(slicedArray)
+                        
+                        
+                        slicedArray.forEach((sa) => {
+                            console.log('logging array item...')
+                            //document.querySelector('.list').innerHTML = ''; // should add this....
+                            document.querySelector('.list').innerHTML += `
+                                <div class="cover">
+                                <p>${sa.id}</p>
+                                <p>${sa.title}</p>
+                                </div>
+                            `;
+                        })
+                        
+                         
+                    }
+
+
+
+                    document.querySelectorAll('span').forEach((s) => {
+                        s.addEventListener('click', function (e) {
+                            //alert('hi...')
+                            console.log(e.target.innerText)
+                            if (e.target.innerText == '1') {
+                                buildPagination(0, 10)
+                            } else if (e.target.innerText == '2') {
+                                buildPagination(10,20)
+                            } else if (e.target.innerText == '3') {
+                                buildPagination(20, 30)
+                            } else if (e.target.innerText == '4') {
+                                buildPagination(30, 40)
+                            } else if (e.target.innerText == '5') {
+                                buildPagination(40, 50)
+                            } else if (e.target.innerText == '6') {
+                                buildPagination(50, 60)
+                            } else if (e.target.innerText == '7') {
+                                buildPagination(60, 70)
+                            } else if (e.target.innerText == '8') {
+                                buildPagination(70, 80)
+                            } else if (e.target.innerText == '9') {
+                                buildPagination(80, 90)
+                            } else if (e.target.innerText == '10') {
+                                buildPagination(90, 100)
+                            } else if (e.target.innerText == '11') {
+                                buildPagination(100, 110)
+                            } else if (e.target.innerText == '12') {
+                                buildPagination(110, 120)
+                            } else if (e.target.innerText == '13') {
+                                buildPagination(120, 130)
+                            } else if (e.target.innerText == '14') {
+                                buildPagination(130, 140)
+                            } else if (e.target.innerText == '15') {
+                                buildPagination(140, 150)
+                            } else if (e.target.innerText == '16') {
+                                buildPagination(150, 160)
+                            } else if (e.target.innerText == '17') {
+                                buildPagination(160, 170)
+                            } else if (e.target.innerText == '18') {
+                                buildPagination(170, 180)
+                            } else if (e.target.innerText == '19') {
+                                buildPagination(180, 190)
+                            } else if (e.target.innerText == '20') {
+                                buildPagination(190, 200)
+                            }
+
+
+                        })
+
+                    })
+
+
+                    
+                })
+            
+            
+        })
+
+        
+        
+
+
+
+
+        
+
+        
+
+
+    </script>
+
+</body>
+</html>
